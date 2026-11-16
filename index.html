@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Advanced Mathematics · Interactive Graphing Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f4f5fb;--card:#fff;--ink:#1b2033;--mute:#5b6280;--line:#d9dcec;--acc:#4f5fd6;--pill:#dfe3ff;--coral:#e0475b;--gold:#b8901c;--curve:#4f5fd6;--aux:#e08a1e;--ok:#1f9d63;--bad:#d1394f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1220;--card:#171b2e;--ink:#e8eaf6;--mute:#9aa1c4;--line:#2a3050;--acc:#a5b4fc;--pill:#a5b4fc;--coral:#ff7b8a;--gold:#c9a227;--curve:#c4b5fd;--aux:#f5a623;--ok:#5fd6a0;--bad:#ff7b8a}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0f1220;--card:#171b2e;--ink:#e8eaf6;--mute:#9aa1c4;--line:#2a3050;--acc:#a5b4fc;--pill:#a5b4fc;--coral:#ff7b8a;--gold:#c9a227;--curve:#c4b5fd;--aux:#f5a623;--ok:#5fd6a0;--bad:#ff7b8a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1,h2,h3{line-height:1.2;margin:0 0 .5em}
+h2{color:var(--coral);font-size:1.5rem}h3{font-size:1.05rem}
+header{border-bottom:3px solid var(--gold);padding:8px 0 14px;margin-bottom:14px}
+header b{display:block;font-size:1.25rem;letter-spacing:.02em}
+header span{color:var(--mute);font-size:.85rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+nav button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 14px;font:inherit;font-size:.9rem;cursor:pointer}
+nav button.on{background:var(--pill);color:#1b2033;border-color:var(--pill);font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+label{display:block;margin:10px 0 4px;font-weight:600;font-size:.9rem}
+input[type=text]{width:100%;padding:11px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.cta{background:var(--coral);color:#fff;border:0;border-radius:999px;padding:11px 24px;font:inherit;font-weight:600;cursor:pointer;margin-top:14px}
+.cta.alt{background:transparent;color:var(--coral);border:1px solid var(--coral)}
+ul{padding-left:1.2em;margin:.3em 0}
+.vm{border-left:3px solid var(--gold);padding-left:12px;margin:12px 0}
+canvas{width:100%;height:auto;aspect-ratio:1/1.05;border-radius:10px;background:var(--bg);border:1px solid var(--line);display:block}
+.sl{display:grid;grid-template-columns:20px 1fr 56px;gap:8px;align-items:center;margin:6px 0;font-size:.9rem}
+.sl input{width:100%;accent-color:var(--acc)}
+.read{background:var(--bg);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.92rem;border:1px dashed var(--line)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+td,th{border:1px solid var(--line);padding:6px 8px;text-align:left}th{background:var(--bg)}
+.q{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}
+.q p{margin:0 0 6px;font-weight:600}
+.q label{font-weight:400;margin:4px 0;display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.q.right{border-color:var(--ok)}.q.wrong{border-color:var(--bad)}
+.fb{font-size:.88rem;margin-top:6px}
+details{margin:8px 0}summary{cursor:pointer;color:var(--acc)}
+.score{font-size:2.4rem;font-weight:700;color:var(--coral)}
+.hide{display:none}
+body{background:radial-gradient(900px 420px at 85% -8%,color-mix(in srgb,var(--acc) 22%,transparent),transparent),radial-gradient(700px 400px at -10% 30%,color-mix(in srgb,var(--coral) 12%,transparent),transparent),var(--bg)}
+.in{animation:in .35s ease}@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+nav button{transition:transform .15s,background .15s}nav button:hover{transform:translateY(-2px)}nav button.seen::after{content:" ✓";color:var(--ok)}
+.pbar{height:6px;background:var(--line);border-radius:9px;overflow:hidden;margin:0 0 12px}.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--coral));transition:width .6s}
+.chip{display:inline-block;background:var(--pill);color:#1b2033;border-radius:999px;padding:4px 14px;font-size:.85rem;font-weight:600;margin-bottom:10px}
+.hero{width:100%;height:auto;aspect-ratio:3/1;display:block;margin-bottom:6px}
+select{width:100%;padding:11px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.cta{transition:transform .15s,box-shadow .15s}.cta:hover{transform:translateY(-2px);box-shadow:0 6px 18px color-mix(in srgb,var(--coral) 40%,transparent)}
+.q.done{border-color:var(--acc)}
+.badge{display:inline-block;padding:5px 14px;border-radius:999px;background:var(--pill);color:#1b2033;font-weight:700}
+.card{box-shadow:0 8px 28px rgba(0,0,0,.12)}
+@media (prefers-reduced-motion:reduce){.in{animation:none}}
+small{color:var(--mute)}
+
+body,button,input,select{font-family:"Nunito","Segoe UI",system-ui,sans-serif}
+h1,h2,h3,header b,.score,.fbadge,.tile b{font-family:"Sora","Segoe UI",system-ui,sans-serif}
+.t-sin{--fn:#6552e0}.t-cos{--fn:#0f9b8e}.t-tan{--fn:#d9531e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .t-sin{--fn:#b4a7ff}:root:not([data-theme="light"]) .t-cos{--fn:#5eead4}:root:not([data-theme="light"]) .t-tan{--fn:#ff9d73}}
+:root[data-theme="dark"] .t-sin{--fn:#b4a7ff}:root[data-theme="dark"] .t-cos{--fn:#5eead4}:root[data-theme="dark"] .t-tan{--fn:#ff9d73}
+main{position:relative;z-index:1}
+.bgsym{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.bgsym span{position:absolute;font:800 2.2rem "Sora",sans-serif;color:var(--acc);opacity:.07;animation:fl 14s ease-in-out infinite}
+@keyframes fl{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-26px) rotate(6deg)}}
+header.top{position:relative;display:flex;gap:14px;align-items:center;border:0;padding:6px 0 22px;margin-bottom:10px}
+header.top .crest{width:58px;height:58px;flex:none;filter:drop-shadow(0 6px 14px color-mix(in srgb,var(--coral) 45%,transparent));animation:bob 4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+header.top b{font-size:1.45rem;font-weight:800;background:linear-gradient(90deg,var(--acc),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+header.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='14'%3E%3Cpath d='M0 7Q15 0 30 7T60 7' fill='none' stroke='%23c9a227' stroke-width='2'/%3E%3C/svg%3E") repeat-x;animation:wv 5s linear infinite}
+@keyframes wv{to{background-position-x:60px}}
+.card{background:color-mix(in srgb,var(--card) 90%,transparent);backdrop-filter:blur(8px);border-radius:20px}
+.card[class*="t-"]{border-top:4px solid var(--fn)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;padding:8px 0;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px)}
+nav button.on{background:linear-gradient(135deg,var(--acc),var(--coral));color:#fff;border:0;box-shadow:0 6px 16px color-mix(in srgb,var(--coral) 35%,transparent)}
+.fnhead{display:flex;gap:14px;align-items:center;margin-bottom:6px}.fnhead h2{color:var(--fn);margin:0}.fnhead p{margin:2px 0 0;color:var(--mute)}
+.fbadge{flex:none;width:58px;height:58px;border-radius:16px;display:grid;place-items:center;color:#fff;font-weight:800;background:linear-gradient(135deg,var(--fn),color-mix(in srgb,var(--fn) 55%,#000));box-shadow:0 8px 18px color-mix(in srgb,var(--fn) 40%,transparent)}
+.stage canvas{border-radius:16px;box-shadow:inset 0 0 0 1px var(--line),0 10px 30px color-mix(in srgb,var(--fn) 18%,transparent);background:var(--bg)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--mute);margin:10px 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.ck{display:flex;gap:8px;align-items:center;margin:8px 0;font-weight:600;cursor:pointer}.ck input{width:18px;height:18px;accent-color:var(--fn)}
+.sl input{accent-color:var(--fn)}
+.hint{margin:12px 0 6px;font-size:.9rem;color:var(--mute)}
+.tiles3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center;min-height:78px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.tile small{color:var(--mute);font-weight:700}.tile b{font-size:.92rem;color:var(--fn);transition:filter .4s}
+.tiles3.lock .tile b{filter:blur(5px)}
+.try{border-left:4px solid var(--fn);background:var(--bg);padding:10px 14px;border-radius:0 12px 12px 0;margin:6px 0 14px}
+.hometiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ht{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:16px;padding:10px 6px;cursor:pointer;text-align:center;transition:transform .2s,box-shadow .2s;font:inherit}
+.ht:hover{transform:translateY(-4px);box-shadow:0 10px 22px color-mix(in srgb,var(--fn) 30%,transparent)}
+.ht svg{width:100%;height:44px}.ht path{fill:none;stroke:var(--fn);stroke-width:3;stroke-linecap:round}.ht b{display:block;color:var(--fn);font-family:"Sora",sans-serif}.ht small{color:var(--mute)}
+.bar{display:grid;grid-template-columns:70px 1fr 36px;gap:8px;align-items:center;margin:6px 0}
+.bar i{height:10px;border-radius:9px;background:var(--line);position:relative;overflow:hidden}
+.bar i::after{content:"";position:absolute;inset:0;width:var(--w);background:linear-gradient(90deg,var(--acc),var(--coral));animation:grow .9s ease}
+@keyframes grow{from{width:0}}
+@media (prefers-reduced-motion:reduce){.bgsym span,header.top::after,.crest{animation:none}}
+
+.tg{position:absolute;right:0;top:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;width:40px;height:40px;cursor:pointer;font-size:1.1rem;transition:transform .3s}.tg:hover{transform:rotate(180deg)}
+header.top>div{padding-right:48px}
+.rowc{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip.xp{background:linear-gradient(135deg,#f5c518,#ff9d43);color:#2a1d00}
+.chip.pop{animation:pop .45s}@keyframes pop{40%{transform:scale(1.18)}}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;background:linear-gradient(135deg,var(--acc),var(--coral));color:#fff;padding:11px 20px;border-radius:999px;font-weight:700;z-index:20;box-shadow:0 10px 26px rgba(0,0,0,.3);transition:all .35s;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.bdg{display:inline-flex;gap:6px;align-items:center;padding:6px 12px;border-radius:999px;border:1px dashed var(--line);font-size:.85rem;font-weight:700;color:var(--mute);filter:grayscale(1);opacity:.6}
+.bdg.on{filter:none;opacity:1;color:var(--ink);border:1px solid var(--gold);background:color-mix(in srgb,var(--gold) 16%,transparent);animation:pop .6s}
+.foot,.credit{text-align:center;color:var(--mute);font-size:.8rem}.foot{padding:18px 8px 30px}.credit{margin-top:14px;text-align:left}
+#cert{border:2px solid var(--gold);box-shadow:0 10px 30px rgba(0,0,0,.25);aspect-ratio:900/640}
+</style>
+</head>
+<body>
+<div class="bgsym" aria-hidden="true"><span style="left:6%;top:12%">sin</span><span style="left:78%;top:20%;animation-delay:-3s">π</span><span style="left:20%;top:55%;animation-delay:-6s">cos</span><span style="left:82%;top:62%;animation-delay:-9s">tan</span><span style="left:48%;top:85%;animation-delay:-4s">θ</span></div>
+<main>
+<header class="top"><svg class="crest" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a5b4fc"/><stop offset="1" stop-color="#ff7b8a"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="url(#gg)"/><path d="M8 32Q20 6 32 32T56 32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg><div><b>Advanced Mathematics</b><span>Interactive Graphing Guide: Sine, Cosine, Tangent<br>Our Lady of the Sacred Heart College of Guimba, Inc.</span></div><button class="tg" id="tg" aria-label="Switch light or dark mode">🌓</button></header>
+
+<!-- WELCOME / LOGIN -->
+<section id="welcome">
+ <div class="card">
+  <canvas id="hero" class="hero" width="600" height="200" aria-hidden="true" style="border:0;background:transparent;aspect-ratio:3/1"></canvas>
+  <h2>Welcome, learner!</h2>
+  <p>Log in to begin. Explore the three function pages, then take the Final Check to see your proficiency level.</p>
+  <div class="vm"><h3>Vision</h3><p>A diocesan Catholic school community that is founded on the Oneness of Heart of Jesus and Mary dedicated to integral human development for a sustainable future.</p></div>
+  <div class="vm"><h3>Mission</h3><p>Inspired by and devoted to the Oneness of Heart of Jesus and Mary, OLSHCO is on mission to:</p>
+   <ul><li>nurture a strong program on Christian formation;</li><li>foster a 21st-century learning environment; and</li><li>support programs and initiatives that promote integral human development.</li></ul></div>
+  <div class="vm"><h3>Core Values</h3><ul><li>Leadership and Accountability</li><li>Mary-Inspired Obedience</li><li>Enduring Discipleship</li></ul></div>
+ </div>
+ <div class="card">
+  <h3>Enter your details</h3>
+  <label for="nm">Full name</label><input id="nm" type="text" autocomplete="name">
+  <label for="gr">Grade level</label><select id="gr"><option value="">Choose your grade level</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select>
+  <label for="sc">Section</label><input id="sc" type="text">
+  <p id="err" class="fb" style="color:var(--bad)"></p>
+  <button class="cta" id="go">Start exploring</button>
+ </div>
+</section>
+
+<!-- APP -->
+<section id="app" class="hide">
+ <div class="rowc"><div class="chip" id="chip"></div><div class="chip xp" id="xp">⭐ 0 XP · Lv 1</div></div><div id="toast" class="toast" role="status"></div><div class="pbar"><i id="pb"></i></div>
+ <nav id="nav"></nav>
+ <div id="view"></div>
+</section>
+<footer class="foot">Graph models by Daileg, Gian Jim; Villano, Gian; Goh, Wenkai — built in GeoGebra and recreated here.</footer>
+</main>
+
+<script>
+const $=s=>document.querySelector(s);
+const PI=Math.PI;
+let user={name:"",grade:"",section:""},tab="home",best=null,tries=0;const visited=new Set(),got=new Set();let xp=0;
+const pages=[["home","Home"],["sin","Sine"],["cos","Cosine"],["tan","Tangent"],["practice","Practice"],["final","Final Check"]];
+
+const info={
+ sin:{t:"Sine",d:"sin x is the y-coordinate of a point moving around the unit circle.",
+  tr:"Set b = 2. What happens to the period? Check it against the table.",
+  tbl:["y = a sin(b(x − c)) + d","2π/b","all reals","d − |a| ≤ y ≤ d + |a|"],
+  mis:["Writing the period as 2π·b. It is 2π/b.","Thinking y = sin(x − π/4) moves left. It moves right by π/4."]},
+ cos:{t:"Cosine",d:"cos x is the x-coordinate of a point moving around the unit circle.",
+  tr:"Set c = π/2. Which familiar graph do you get? Explain why.",
+  tbl:["y = a cos(b(x − c)) + d","2π/b","all reals","d − |a| ≤ y ≤ d + |a|"],
+  mis:["Forgetting that cosine starts at its maximum when a > 0.","Confusing a vertical shift (d) with a horizontal shift (c)."]},
+ tan:{t:"Tangent",d:"tan x = sin x / cos x. It is undefined where cos x = 0, so its graph has vertical asymptotes.",
+  tr:"Move c. Do the asymptotes stay at the same x-values? Why or why not?",
+  tbl:["y = a tan(b(x − c)) + d","π/b","x ≠ c + π/(2b) + kπ/b","all reals"],
+  mis:["Using 2π as the period. Tangent repeats every π/b.","Giving a range like −1 ≤ y ≤ 1. Tangent has no maximum or minimum."]}
+};
+
+const practice={
+ sin:[["Read the graph: y = 3 sin 2x + 1. What is the period?","π. Period = 2π/b = 2π/2 = π."],
+      ["Find the range of y = 3 sin 2x + 1.","−2 ≤ y ≤ 4. The midline is y = 1 and the graph reaches 3 units above and below."],
+      ["Write the equation: amplitude 2, period π, shifted π/4 to the right, midline y = 1.","y = 2 sin(2(x − π/4)) + 1. Period π means b = 2π/π = 2."],
+      ["Error analysis: a student says y = sin 3x has period 3π. What went wrong?","The period is 2π/3, not 3π. The student multiplied by b instead of dividing 2π by b."]],
+ cos:[["What is the period of y = cos(x/2)?","4π. Here b = 1/2, so the period is 2π ÷ ½ = 4π."],
+      ["Find the range of y = −2 cos x − 3.","−5 ≤ y ≤ −1. The midline is y = −3 and the amplitude is 2."],
+      ["Predict the change: y = cos x becomes y = −cos x. What happens?","The graph flips over the x-axis. The period and range stay the same."],
+      ["Error analysis: a student says y = cos(x − π/2) shifts the graph left by π/2. What went wrong?","Subtracting c shifts the graph right. It shifts right by π/2."]],
+ tan:[["What is the period of y = tan 2x?","π/2. Period = π/b = π/2."],
+      ["Find the asymptotes of y = tan x between −π and π.","x = −π/2 and x = π/2."],
+      ["Find the range of y = 3 tan x − 1.","All real numbers. Tangent has no maximum or minimum."],
+      ["Error analysis: a student says the range of y = tan x is −1 ≤ y ≤ 1. What went wrong?","That is the range of sine and cosine. Tangent takes every real value."]]
+};
+
+const quiz=[
+ ["Period of y = 2 sin 3x?",["6π","2π/3","2π","3π"],1],
+ ["Range of y = 4 sin x − 1?",["−4 ≤ y ≤ 4","−5 ≤ y ≤ 3","−3 ≤ y ≤ 5","−1 ≤ y ≤ 1"],1],
+ ["y = sin(x − π/2) is shifted:",["left π/2","right π/2","up π/2","down π/2"],1],
+ ["What does a negative a do to y = a sin x?",["Changes the period","Shifts it left","Flips it over the x-axis","Shifts it down"],2],
+ ["Amplitude of y = −3 sin 2x + 1?",["−3","3","1","2"],1],
+ ["Period of y = cos 4x?",["8π","π/2","4π","π"],1],
+ ["Range of y = −2 cos x + 3?",["−2 ≤ y ≤ 2","1 ≤ y ≤ 5","3 ≤ y ≤ 5","−5 ≤ y ≤ −1"],1],
+ ["y = cos x has its maximum at:",["x = π/2","x = π","x = 0","x = 3π/2"],2],
+ ["y = cos(x − π/3) compared with y = cos x:",["Shifted left π/3","Shifted right π/3","Shifted up π/3","Period becomes π/3"],1],
+ ["cos x is the ___ coordinate on the unit circle:",["x","y","slope","radius"],0],
+ ["Period of y = tan(x/2)?",["π","2π","π/2","4π"],1],
+ ["A vertical asymptote of y = tan x is:",["x = 0","x = π","x = π/2","x = 2π"],2],
+ ["Range of y = 3 tan x + 2?",["−1 ≤ y ≤ 5","All real numbers","y ≥ 2","−3 ≤ y ≤ 3"],1],
+ ["The zeros of y = tan x are at:",["x = kπ","x = π/2 + kπ","x = π/4 + kπ","x = 2kπ"],0],
+ ["Period of y = tan 3x?",["3π","π/3","π","2π/3"],1]
+];
+const RC={sin:"csc x = 1/sin x",cos:"sec x = 1/cos x",tan:"cot x = 1/tan x"};
+const levels=[[90,"Advanced (A)"],[80,"Benchmarking (B)"],[75,"Connecting (C)"],[65,"Developing (D)"],[0,"Emerging (E)"]];
+
+function renderNav(){
+ visited.add(tab);award("v"+tab,10,"Explored "+(pages.find(p=>p[0]===tab)||[0,tab])[1]);$("#nav").innerHTML=pages.map(p=>`<button class="${p[0]===tab?'on':''} ${visited.has(p[0])&&p[0]!==tab?'seen':''}" data-t="${p[0]}">${p[1]}</button>`).join("");$("#pb").style.width=Math.round(visited.size/pages.length*100)+"%";
+ $("#nav").querySelectorAll("button").forEach(b=>b.onclick=()=>{tab=b.dataset.t;show();window.scrollTo(0,0)});
+}
+function show(){
+ stopAnim();renderNav();const v=$("#view");v.classList.remove("in");void v.offsetWidth;v.classList.add("in");
+ if(tab==="home"){v.innerHTML=homeHTML();v.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{tab=b.dataset.go;show();scrollTo(0,0)})}
+ else if(info[tab]){v.innerHTML=fnHTML(tab);initGraph(tab)}
+ else if(tab==="practice"){v.innerHTML=practiceHTML();v.querySelectorAll("details").forEach((d,i)=>d.ontoggle=()=>{if(d.open)award("pr"+i,5,"Practice reviewed")})}
+ else finalInit();
+}
+function homeHTML(){return `<div class="card"><h2>How to use this guide</h2>
+<p>Hello, <b>${esc(user.name)}</b> (Grade ${esc(user.grade)} · ${esc(user.section)})! This guide helps you picture the graphs of sine, cosine and tangent. Each function has its own page with an interactive graph, a “Try this” task, a characteristics table and common mistakes.</p>
+<ul><li>Earn XP and badges as you explore.</li><li>Open <b>Sine</b>, <b>Cosine</b> or <b>Tangent</b> and move the sliders a, b, c and d.</li>
+<li>Predict the period, domain and range first. Then tick the box to check.</li>
+<li>Answer the <b>Practice</b> questions, then reveal the reasoning.</li>
+<li>Finish with the <b>Final Check</b>: 15 questions, up to 3 attempts. Your best score counts.</li></ul>
+<h3>Your badges</h3><div class="badges">${badges()}</div>
+<div class="hometiles"><button class="ht t-sin" data-go="sin"><svg viewBox="0 0 80 40"><path d="M2 20Q11 0 21 20T40 20T59 20T78 20"/></svg><b>Sine</b><small>y-coordinate</small></button><button class="ht t-cos" data-go="cos"><svg viewBox="0 0 80 40"><path d="M2 8Q11 36 21 8T40 8T59 8T78 8"/></svg><b>Cosine</b><small>x-coordinate</small></button><button class="ht t-tan" data-go="tan"><svg viewBox="0 0 80 40"><path d="M2 36C16 34 18 24 24 20S32 6 40 4M44 36C56 34 58 24 64 20S72 6 80 4"/></svg><b>Tangent</b><small>sin ÷ cos</small></button></div>
+<h3>The general form of all three functions</h3><p><b>y = a · f( b(x − c) ) + d</b></p>
+<table><tr><th>Letter</th><th>What it changes</th></tr>
+<tr><td>a</td><td>Vertical stretch; a negative value flips the graph</td></tr>
+<tr><td>b</td><td>Horizontal squeeze or stretch, which changes the period</td></tr>
+<tr><td>c</td><td>Phase shift (left or right)</td></tr>
+<tr><td>d</td><td>Vertical shift (up or down)</td></tr></table></div>`}
+function fnHTML(k){const i=info[k],r={sin:"csc",cos:"sec",tan:"cot"}[k],Y="#f5c518",PK="#ff6b9d",GR="#4ade80";
+const lg=k==="tan"?[["var(--fn)","tangent graph"],["var(--aux)","dashed cot partner"],[Y,"Zeros"],[PK,"Upper guide points"],[GR,"Lower guide points · asymptotes"]]:[["var(--fn)",i.t.toLowerCase()+" graph"],["var(--aux)","dashed "+r+" partner"],[Y,"Midline crossings"],[PK,"Peaks (valleys if a < 0)"],[GR,"Valleys (peaks if a < 0)"]];
+const com=k==="sin"?`<h3>In our community</h3><p>Daylight in Guimba through the year: D(t) = 0.9 sin((2π/365)(t − 80)) + 12.1, with t the day of the year. Here a = 0.9 h (swing above and below average), b = 2π/365 (one cycle per year), c = 80 (when the cycle starts), d = 12.1 h (average daylight).</p>`:"";
+return `<div class="card t-${k}"><div class="fnhead"><span class="fbadge">${k}</span><div><h2>${i.t}</h2><p>${i.d}</p></div></div>
+<h3>Interactive graph</h3><div class="stage"><canvas id="cv" width="700" height="640"></canvas></div>
+<div class="legend">${lg.map(l=>`<span><i style="background:${l[0]}"></i>${l[1]}</span>`).join("")}</div>
+<div style="display:flex;gap:10px;align-items:center;margin:8px 0;flex-wrap:wrap"><button class="cta" id="play" style="margin:0;padding:8px 18px;background:var(--fn)">▶ Trace the curve</button><span id="live" class="fb"></span></div>
+<div id="sls"></div>
+<label class="ck"><input type="checkbox" id="rec" checked> Show reciprocal partner (dashed)</label>
+<label class="ck"><input type="checkbox" id="chk"> I answered first: show period, domain, range</label>
+<p class="hint">Predict the period, domain and range first. Then tick the box to check.</p>
+<div class="tiles3 lock" id="rd"><div class="tile"><small>Period</small><b id="tp">?</b></div><div class="tile"><small>Domain</small><b id="td">?</b></div><div class="tile"><small>Range</small><b id="tr">?</b></div></div>
+<h3 style="margin-top:16px">Try this</h3><div class="try">${i.tr}</div>
+<h3>Characteristics</h3><div style="overflow-x:auto"><table><tr><th>Function</th><th>Period</th><th>Domain</th><th>Range</th></tr><tr><td>${i.tbl.join("</td><td>")}</td></tr></table></div><small>k is any integer; assumes a ≠ 0.</small>
+<h3 style="margin-top:14px">Common mistakes</h3><ul>${i.mis.map(m=>`<li>${m}</li>`).join("")}</ul>${com}</div>`}
+function practiceHTML(){return `<div class="card"><h2>Practice Questions</h2><p><small>Four questions per function. Try each one first, then open the reasoning.</small></p>`+
+ ["sin","cos","tan"].map(k=>`<h3>${info[k].t}</h3><ol>`+practice[k].map(q=>`<li>${q[0]}<details><summary>Show answer</summary><p>${q[1]}</p></details></li>`).join("")+`</ol>`).join("")+`</div>`}
+
+/* graph (ported from the GeoGebra files) */
+function initGraph(k){
+ const P={a:1,b:1,c:0,d:0},Y="#f5c518",PK="#ff6b9d",GR="#4ade80";
+ const cfg=[["a",-3,3,.5],["b",.5,4,.5],["c",-PI,PI,.01],["d",k==="tan"?-3:-5,k==="tan"?3:5,.5]];
+ $("#sls").innerHTML=cfg.map(c=>`<div class="sl"><b>${c[0]}</b><input type="range" id="sl_${c[0]}" min="${c[1]}" max="${c[2]}" step="${c[3]}" value="${P[c[0]]}" aria-label="${c[0]}"><span id="v${c[0]}"></span></div>`).join("");
+ const cv=$("#cv"),g=cv.getContext("2d"),W=cv.width,H=cv.height,css=n=>getComputedStyle(cv).getPropertyValue(n).trim();
+ const X0=-2*PI,X1=2*PI,Y0=-6,Y1=6,px=x=>(x-X0)/(X1-X0)*W,py=y=>H-(y-Y0)/(Y1-Y0)*H;
+ const f=k==="sin"?Math.sin:k==="cos"?Math.cos:Math.tan;
+ const main=x=>P.a*f(P.b*(x-P.c))+P.d,rec=x=>P.a/f(P.b*(x-P.c))+P.d;
+ const lbl=m=>{const q=m/2,A=Math.abs;if(m%2)return(m<0?"−":"")+(A(m)===1?"":A(m))+"π/2";return(q<0?"−":"")+(A(q)===1?"":A(q))+"π"};
+ const gen=(fx,fy)=>{const o=[];for(let n=-80;n<=80;n++)o.push([fx(n),fy(n)]);return o};
+ const line=(x1,y1,x2,y2)=>{g.beginPath();g.moveTo(px(x1),py(y1));g.lineTo(px(x2),py(y2));g.stroke()};
+ function plot(fn,col,w,dash,glow){g.save();g.strokeStyle=col;g.lineWidth=w;g.lineJoin="round";g.lineCap="round";g.setLineDash(dash||[]);if(glow){g.shadowColor=col;g.shadowBlur=12}g.beginPath();let pv=null;const N=W*2;
+  for(let i=0;i<=N;i++){const x=X0+(X1-X0)*i/N,y=fn(x),bad=!isFinite(y)||Math.abs(y)>40;if(bad){pv=null;continue}if(pv===null||Math.abs(y-pv)>12)g.moveTo(px(x),py(y));else g.lineTo(px(x),py(y));pv=y}g.stroke();g.restore()}
+ function pts(list,col,r){g.fillStyle=col;g.strokeStyle="#fff";g.lineWidth=2;g.setLineDash([]);list.forEach(([x,y])=>{if(x<X0||x>X1)return;g.beginPath();g.arc(px(x),py(y),r,0,7);g.fill();g.stroke()})}
+ function draw(){
+  const {a,b,c,d}=P;g.clearRect(0,0,W,H);g.font="600 17px Nunito,sans-serif";g.lineWidth=1;g.strokeStyle=css("--line");g.fillStyle=css("--mute");
+  for(let m=-4;m<=4;m++){g.globalAlpha=m%2?.4:.9;line(m*PI/2,Y0,m*PI/2,Y1);g.globalAlpha=1;if(m)g.fillText(lbl(m),px(m*PI/2)-12,py(0)+20)}
+  for(let y=-6;y<=6;y++){g.globalAlpha=y%2?.35:.9;line(X0,y,X1,y);g.globalAlpha=1;if(y&&y%2===0)g.fillText(y,px(0)+6,py(y)-4)}
+  g.strokeStyle=css("--ink");g.lineWidth=1.6;line(0,Y0,0,Y1);line(X0,0,X1,0);
+  g.setLineDash([8,6]);g.strokeStyle=css("--mute");g.lineWidth=1.5;line(X0,d,X1,d);g.setLineDash([]);
+  if(k==="tan"){g.strokeStyle=GR;g.lineWidth=2;gen(n=>c+(PI/2+n*PI)/b,()=>0).forEach(([x])=>{if(x>X0&&x<X1)line(x,Y0,x,Y1)})}
+  if($("#rec").checked)plot(rec,css("--aux"),2.5,[9,7]);
+  plot(main,css("--fn"),4,null,true);
+  if(k==="sin"){pts(gen(n=>c+n*PI/b,()=>d),Y,7);pts(gen(n=>c+(PI/2+2*n*PI)/b,()=>d+a),PK,7);pts(gen(n=>c+(3*PI/2+2*n*PI)/b,()=>d-a),GR,7)}
+  if(k==="cos"){pts(gen(n=>c+(PI/2+n*PI)/b,()=>d),Y,7);pts(gen(n=>c+2*n*PI/b,()=>d+a),PK,7);pts(gen(n=>c+(PI+2*n*PI)/b,()=>d-a),GR,7)}
+  if(k==="tan"){pts(gen(n=>c+n*PI/b,()=>d),Y,7);pts(gen(n=>c+(PI/4+n*PI)/b,()=>d+a),PK,7);pts(gen(n=>c+(-PI/4+n*PI)/b,()=>d-a),GR,7);pts(gen(n=>c+(PI/2+n*PI)/b,()=>0),GR,4)}
+ }
+ let tx=null,run=false;
+ function tracer(){if(tx===null)return;const y=main(tx);$("#live").textContent=`x = ${(tx/PI).toFixed(2)}π, y = ${Math.abs(y)>99?"undefined":y.toFixed(2)}`;if(Math.abs(y)>6)return;g.strokeStyle=css("--coral");g.lineWidth=1.5;g.setLineDash([4,5]);line(tx,0,tx,y);g.setLineDash([]);g.fillStyle=css("--coral");g.beginPath();g.arc(px(tx),py(y),9,0,7);g.fill();g.strokeStyle="#fff";g.lineWidth=2;g.stroke()}
+ function step(){if(!run)return;tx+=.04;if(tx>X1)tx=X0;draw();tracer();window.__raf=requestAnimationFrame(step)}
+ function readout(){const on=$("#chk").checked,pn=+((k==="tan"?1:2)/P.b).toFixed(2);
+  $("#rd").classList.toggle("lock",!on);
+  $("#tp").textContent=on?(pn===1?"":pn)+"π":"?";
+  $("#td").textContent=on?(k==="tan"?`x ≠ ${(+P.c.toFixed(2)+0)} + (π/2 + kπ) ÷ ${P.b}`:"all real numbers"):"?";
+  $("#tr").textContent=on?(k==="tan"?"all real numbers":`${P.d-Math.abs(P.a)} ≤ y ≤ ${P.d+Math.abs(P.a)}`):"?"}
+ function upd(){window.__redraw=upd;cfg.forEach(c=>{P[c[0]]=+$("#sl_"+c[0]).value;$("#v"+c[0]).textContent=c[0]==="c"?((+(P.c/PI).toFixed(2))+0)+"π":P[c[0]]});draw();tracer();readout()}
+ const moved=new Set();cfg.forEach(c=>$("#sl_"+c[0]).oninput=()=>{moved.add(c[0]);if(moved.size===4)award("sl"+k,15,"Moved all four sliders");upd()});$("#chk").onchange=()=>{if($("#chk").checked)award("ck"+k,10,"Predicted first");upd()};$("#rec").onchange=upd;
+ $("#play").onclick=()=>{run=!run;$("#play").textContent=run?"⏸ Pause":"▶ Trace the curve";if(run){award("tr"+k,15,"Traced the curve");if(tx===null)tx=X0;step()}else cancelAnimationFrame(window.__raf)};
+ upd();
+}
+
+/* final check */
+function finalInit(){
+ const v=$("#view");
+ if(tries>=3){showResult();return}
+ v.innerHTML=`<div class="card"><h2>Final Check</h2><p>Answer all 15 questions. Attempt ${tries+1} of 3. Your best score counts.</p>
+ <table><tr><th>Level</th><th>Score</th></tr><tr><td>Emerging (E)</td><td>64% and below</td></tr><tr><td>Developing (D)</td><td>65% – 74%</td></tr><tr><td>Connecting (C)</td><td>75% – 79%</td></tr><tr><td>Benchmarking (B)</td><td>80% – 89%</td></tr><tr><td>Advanced (A)</td><td>90% and above</td></tr></table>
+ <div id="qs">`+quiz.map((q,i)=>`<div class="q" id="q${i}"><p>${i+1}. ${q[0]}</p>`+q[1].map((o,j)=>`<label><input type="radio" name="r${i}" value="${j}"> ${o}</label>`).join("")+`<div class="fb"></div></div>`).join("")+
+ `</div><p id="cnt" class="fb">0 of 15 answered</p><p id="msg" class="fb" style="color:var(--bad)"></p><button class="cta" id="sub">Submit answers</button></div>`;
+ $("#qs").onchange=e=>{const n=quiz.filter((q,i)=>document.querySelector(`input[name=r${i}]:checked`)).length;$("#cnt").textContent=n+" of 15 answered";e.target.closest(".q").classList.add("done")};
+ $("#sub").onclick=()=>{
+  const ans=quiz.map((q,i)=>{const c=document.querySelector(`input[name=r${i}]:checked`);return c?+c.value:-1});
+  if(ans.includes(-1)){$("#msg").textContent=`Please answer question ${ans.indexOf(-1)+1} and any others left blank.`;return}
+  let s=0,gx=0;ans.forEach((a,i)=>{if(a===quiz[i][2]){s++;gx+=award("q"+i,10,"",1)}});if(gx)toast(`+${gx} XP · Final Check`);
+  const pct=Math.round(s/quiz.length*100);tries++;
+  if(best===null||pct>best.pct)best={pct,s,ans};
+  last={ans};showResult();
+ };
+}
+let last=null;
+function showResult(){
+ const lv=levels.find(l=>best.pct>=l[0])[1];const part=["Sine","Cosine","Tangent"].map((n,j)=>{let c=0;for(let i=j*5;i<j*5+5;i++)if(best.ans&&best.ans[i]===quiz[i][2])c++;return `<div class="bar"><span>${n}</span><i style="--w:${c*20}%"></i><b>${c}/5</b></div>`}).join("");const note=best.pct>=90?"Outstanding work! 🎉":best.pct>=75?"Great job! Keep going. 💪":"Good try. Review the pages and try again. 📘";
+ const rev=last?quiz.map((q,i)=>{const ok=last.ans[i]===q[2];return `<div class="q ${ok?'right':'wrong'}"><p>${i+1}. ${q[0]}</p><div class="fb">${ok?"Correct":"Your answer: "+q[1][last.ans[i]]+". Correct answer: "+q[1][q[2]]}</div></div>`}).join(""):"";
+ $("#view").innerHTML=`<div class="card"><h2>Your Result</h2><p><b>${esc(user.name)}</b> · Grade ${esc(user.grade)} · Section ${esc(user.section)}</p>
+ <div class="score" id="sc2">${best.s}/${quiz.length} (${best.pct}%)</div><p><span class="badge">${lv}</span> ${note}<br><small>Attempts used: ${tries} of 3. Best score shown.</small></p>
+ ${tries<3?'<button class="cta" id="again">Try again</button>':'<p>You have used all 3 attempts.</p>'}
+ <button class="cta alt" id="pr">Print or save result</button>
+ <h3 style="margin-top:16px">Your certificate</h3><canvas id="cert" width="900" height="640"></canvas><button class="cta" id="dl">Download certificate (PNG)</button><p class="fb"><small>If the download does not work, take a screenshot of the certificate above.</small></p><h3 style="margin-top:16px">Your score by function</h3>${part}<h3 style="margin-top:16px">Review of your last attempt</h3>${rev}</div>`;
+ if(tries<3)$("#again").onclick=()=>{last=null;const t=tries;finalInit()};
+ $("#pr").onclick=()=>window.print();drawCert();$("#dl").onclick=dlCert;
+ if(last){countUp();if(best.pct>=80)confetti()}
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.classList.remove("on"),2200)}
+function updXP(){const e=$("#xp");e.textContent=`⭐ ${xp} XP · Lv ${Math.floor(xp/100)+1}`;e.classList.remove("pop");void e.offsetWidth;e.classList.add("pop")}
+function award(id,pts,msg,quiet){if(got.has(id))return 0;got.add(id);const L=Math.floor(xp/100);xp+=pts;updXP();if(!quiet)toast(`+${pts} XP · ${msg}`);if(Math.floor(xp/100)>L)setTimeout(()=>toast(`Level ${L+2} reached! 🚀`),1200);return pts}
+function badges(){return [["🧭","Explorer",visited.size>=pages.length],["⚡","Tracer",["sin","cos","tan"].every(k=>got.has("tr"+k))],["🎯","Sharp Mind",!!best&&best.pct>=80],["🏆","Perfect",!!best&&best.pct===100]].map(b=>`<span class="bdg ${b[2]?"on":""}">${b[0]} ${b[1]}</span>`).join("")}
+function drawCert(){const c=$("#cert");if(!c)return;const g=c.getContext("2d"),W=900,H=640,lv=levels.find(l=>best.pct>=l[0])[1];
+ g.fillStyle="#fbf7ea";g.fillRect(0,0,W,H);g.strokeStyle="#c9a227";g.lineWidth=10;g.strokeRect(22,22,W-44,H-44);g.lineWidth=2;g.strokeRect(40,40,W-80,H-80);
+ const gr=g.createLinearGradient(W/2-36,70,W/2+36,140);gr.addColorStop(0,"#a5b4fc");gr.addColorStop(1,"#ff7b8a");g.fillStyle=gr;g.beginPath();g.arc(W/2,105,36,0,7);g.fill();
+ g.strokeStyle="#fff";g.lineWidth=5;g.lineCap="round";g.beginPath();g.moveTo(W/2-26,105);g.quadraticCurveTo(W/2-13,75,W/2,105);g.quadraticCurveTo(W/2+13,135,W/2+26,105);g.stroke();
+ g.textAlign="center";g.fillStyle="#1b2033";const T=(t,y,f,col)=>{g.font=f;g.fillStyle=col||"#1b2033";g.fillText(t,W/2,y)};
+ T("CERTIFICATE OF PROFICIENCY",188,"700 34px Georgia,serif");T("Advanced Mathematics · Interactive Graphing Guide",222,"18px Georgia,serif","#5b6280");
+ T("This certifies that",268,"italic 19px Georgia,serif");let fs=54;g.font=`700 ${fs}px Georgia,serif`;while(g.measureText(user.name).width>700&&fs>24){fs-=2;g.font=`700 ${fs}px Georgia,serif`}T(user.name,338,`700 ${fs}px Georgia,serif`,"#4f5fd6");
+ g.strokeStyle="#c9a227";g.lineWidth=2;g.beginPath();g.moveTo(180,352);g.lineTo(W-180,352);g.stroke();
+ T(`Grade ${user.grade} · Section ${user.section}`,388,"22px Georgia,serif");T("has completed the Final Check on Sine, Cosine and Tangent",430,"19px Georgia,serif");
+ T(`Score: ${best.s}/${quiz.length} (${best.pct}%)`,474,"700 30px Georgia,serif","#e0475b");T(`Proficiency level: ${lv}`,516,"700 26px Georgia,serif","#1b2033");
+ T(new Date().toLocaleDateString("en-PH",{year:"numeric",month:"long",day:"numeric"}),556,"16px Georgia,serif","#5b6280");T("Graph models by Daileg, Gian Jim; Villano, Gian; Goh, Wenkai — built in GeoGebra and recreated here.",592,"12px Georgia,serif","#5b6280")}
+function dlCert(){const a=document.createElement("a");a.href=$("#cert").toDataURL("image/png");a.download="certificate.png";a.click()}
+function stopAnim(){cancelAnimationFrame(window.__raf)}
+function countUp(){const e=$("#sc2"),tot=best.pct;let i=0;const id=setInterval(()=>{i+=Math.ceil(tot/25)||1;if(i>=tot){clearInterval(id);e.textContent=`${best.s}/${quiz.length} (${tot}%)`}else e.textContent=`${Math.round(i*quiz.length/100)}/${quiz.length} (${i}%)`},30)}
+function confetti(){const c=document.createElement("canvas");c.style.cssText="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9;background:transparent;border:0;border-radius:0;aspect-ratio:auto;box-shadow:none";c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);const g=c.getContext("2d"),cols=["#ff7b8a","#a5b4fc","#f5a623","#5fd6a0","#c4b5fd"];const ps=Array.from({length:120},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.5,vx:Math.random()*4-2,vy:2+Math.random()*4,r:4+Math.random()*5,c:cols[Math.random()*5|0],a:Math.random()*6}));let n=0;(function f(){g.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=.1;g.fillStyle=p.c;g.save();g.translate(p.x,p.y);g.rotate(p.a);g.fillRect(-p.r,-p.r/2,p.r*2,p.r);g.restore()});if(++n<200)requestAnimationFrame(f);else c.remove()})()}
+function hero(){const c=$("#hero"),g=c.getContext("2d"),W=c.width,H=c.height,css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim(),rm=matchMedia("(prefers-reduced-motion:reduce)").matches;let t=rm?1:0;function f(){if($("#welcome").classList.contains("hide"))return;t+=.02;g.clearRect(0,0,W,H);const R=70,cx=90,cy=H/2,ox=cx+R+40;g.lineWidth=2;g.strokeStyle=css("--line");g.beginPath();g.arc(cx,cy,R,0,7);g.stroke();g.beginPath();g.moveTo(cx-R-10,cy);g.lineTo(W,cy);g.stroke();const x=cx+R*Math.cos(t),y=cy-R*Math.sin(t);g.strokeStyle=css("--aux");g.beginPath();g.moveTo(cx,cy);g.lineTo(x,y);g.stroke();g.strokeStyle=css("--curve");g.lineWidth=3;g.beginPath();for(let i=0;i<=W-ox;i++){const yy=cy-R*Math.sin(t-i/60);i?g.lineTo(ox+i,yy):g.moveTo(ox+i,yy)}g.stroke();g.setLineDash([4,5]);g.lineWidth=1.5;g.strokeStyle=css("--aux");g.beginPath();g.moveTo(x,y);g.lineTo(ox,y);g.stroke();g.setLineDash([]);g.fillStyle=css("--coral");g.beginPath();g.arc(x,y,7,0,7);g.fill();g.beginPath();g.arc(ox,y,6,0,7);g.fill();if(!rm)requestAnimationFrame(f)}f()}
+hero();
+$("#tg").onclick=()=>{const dk=matchMedia("(prefers-color-scheme:dark)").matches,cur=document.documentElement.dataset.theme||(dk?"dark":"light");document.documentElement.dataset.theme=cur==="dark"?"light":"dark";window.__redraw&&window.__redraw()};
+$("#go").onclick=()=>{
+ const n=$("#nm").value.trim(),s=$("#sc").value.trim(),gr=$("#gr").value;
+ if(!n||!gr||!s){$("#err").textContent="Enter your full name, grade level and section to continue.";return}
+ user={name:n,grade:gr,section:s};$("#chip").textContent=`${n} · Grade ${gr} · ${s}`;confetti();setTimeout(()=>toast("Welcome, "+n.split(" ")[0]+"! Let’s graph."),500);$("#welcome").classList.add("hide");$("#app").classList.remove("hide");tab="home";show();window.scrollTo(0,0);
+};
+</script>
+</body>
+</html>
